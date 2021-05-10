@@ -15,9 +15,9 @@
 
 ## Introduction
 
-Welcome to Driving License Use Case - Issuer application. In this application, you will experience how does a normal applicant would like to sign up for a verifiable credential and thereafter how a Issuer checks the information and issues a verifiable credential to the applicant.
+Welcome to AED VC Use Case - Issuer application. In this application, you will experience how does a normal applicant would like to sign up for a verifiable credential and thereafter how a Issuer checks the information and issues a verifiable credential to the applicant.
 
-You can either run this program in your local machine or try it out here: https://usecases.drivinglicense-issuer.vc-generator.com/
+You can either run this program in your local machine or try it out here: http://35.183.184.244:3000/
 
 ## Initial Set Up
 
