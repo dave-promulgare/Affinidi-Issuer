@@ -1,4 +1,4 @@
-# Affinidi Use Case Implementation - Driving License - Issuer
+# Affinidi Use Case Implementation - AED VC - Issuer
 
 ## Table of contents
 
