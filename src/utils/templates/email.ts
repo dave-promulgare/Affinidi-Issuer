@@ -2,18 +2,20 @@ import { SES } from 'aws-sdk';
 import config from '../config';
 
 // Sender email
-const sender_email = 'no-reply@vc-generator.com';
+const sender_email = 'dave@canacred.ca';
 
 
 export const sendEmail = (qrCode: string, sharingUrl: string, receiver_email: string) => {
+    console.log("Send email vals=", qrCode, sharingUrl, receiver_email);
     const ses = new SES({
         apiVersion: '2020-12-01',
         accessKeyId: config.accessKeyId,
         secretAccessKey: config.secretAccessKey,
-        region: "us-east-1",
+        region: "ca-central-1",
       });
     
-    const redirectUrl: string = `${config.wallet_url}/accept-credentials?vcURL=${sharingUrl}`
+    //const redirectUrl: string = `${config.wallet_url}/accept-credentials?vcURL=${sharingUrl}`
+    const redirectUrl: string = `http://35.183.184.244:8000/accept-credentials?vcURL=${sharingUrl}`
 
     let ses_mail = "From: 'StartUpA Driving License Issuer' <" + sender_email + ">\n";
     ses_mail = ses_mail + "To: " + receiver_email + "\n";
@@ -27,6 +29,7 @@ export const sendEmail = (qrCode: string, sharingUrl: string, receiver_email: st
     ses_mail = ses_mail + "<h2>Your application for verifiable credentials has been approved.</h2>\n\n";
     ses_mail = ses_mail + "<p>You can retrieve and store your verifiable credentials through the link provided.</p>\n\n";
     ses_mail = ses_mail + "<p>Link: <a href='" + redirectUrl + "'>Sharing URL</a></p>\n\n";
+    ses_mail = ses_mail + "<p>Link:" + redirectUrl + "</p>\n\n";
     ses_mail = ses_mail + "</body>\n\n";
     ses_mail = ses_mail + "</html>\n\n";
 

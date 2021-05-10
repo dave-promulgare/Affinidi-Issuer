@@ -4,7 +4,7 @@ import {Button} from 'react-bootstrap';
 import ApiService from 'utils/apiService';
 import { routes } from 'constants/routes';
 import firebase from 'utils/firebase/firebase';
-import {drivingLicenseVCData} from 'utils/vc-data-examples/drivinglicense';
+import {certifiedCPRAEDVCData} from 'utils/vc-data-examples/drivinglicense';
 import { sendEmail } from 'utils/templates/email';
 
 interface IProps {
@@ -13,11 +13,10 @@ interface IProps {
 }
 
 const ApplicationInfoPage: React.FC<IProps & RouteComponentProps> = (props: IProps): React.ReactElement => {
-  const [VCschemaData] = useState<any>(JSON.stringify(drivingLicenseVCData));
-
+  const [VCschemaData] = useState<any>(JSON.stringify(certifiedCPRAEDVCData));
   const { username, payload, applicationID, docID, approved } = props.location.state.state;
-  const { givenName, familyName, holderDid, idClass, issueDate} = payload;
-  const { country, drivingClass, email, issuerOrganization } = JSON.parse(idClass);
+  const { name, holderDid, email} = payload;
+  //const { issuerOrganization } = JSON.parse(idClass);
 
   const history = useHistory();
 
@@ -37,16 +36,14 @@ const ApplicationInfoPage: React.FC<IProps & RouteComponentProps> = (props: IPro
     try {
       if (isJson(VCschemaData)){
         const example = {...JSON.parse(VCschemaData)}
-        example.data.givenName = givenName;
-        example.data.familyName = familyName;
+        example.data.name = name;
         example.data.email = email;
-        example.data.hasIDDocument.hasIDDocument.issueDate = issueDate;
-        example.data.hasIDDocument.hasIDDocument.idClass = idClass;
         example.holderDid = holderDid || '';
         
+        console.log("Pre-unsigend=", JSON.stringify(example));
         // Build unsigned VC
         const {unsignedVC} = await ApiService.issueUnsignedVC(example);
-
+        console.log("Unsigned=", unsignedVC);
         // Sign the VC
         const {signedCredential} = await ApiService.signVC({
           unsignedCredential: unsignedVC
@@ -78,21 +75,13 @@ const ApplicationInfoPage: React.FC<IProps & RouteComponentProps> = (props: IPro
     <div className='tutorial'>
       <div className='tutorial__step'>
         <h3><strong>Application ID:</strong> {applicationID}</h3>
-        <p><strong>Given Name:</strong> {givenName}</p>
-        <p><strong>Family Name:</strong> {familyName}</p>
-        <p><strong>Date of Issuance:</strong> {issueDate}</p>
-        <p><strong>Issuer Organisation:</strong> {issuerOrganization}</p>
-        <p><strong>Country of Issuance:</strong> {country}</p>
-        <p><strong>Driving Class:</strong> {drivingClass}</p>
-        <Button style={{display: 'block', margin: '10px 0 0 0'}}>View Proof of Document</Button>
-
+        <p><strong>Name:</strong> {name}</p>
         { !approved ? (
           <>
            <Button style={{display: 'block', margin: '10px 0 0 0'}} onClick={approveVC}>Approve</Button>
            <Button style={{display: 'block', margin: '10px 0 0 0'}} disabled>Reject</Button>
           </>
           ) : null}
-       
       </div>
     </div>
   )

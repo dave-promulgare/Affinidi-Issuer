@@ -3,6 +3,47 @@
  * */
 import {UnsignedW3cCredential, VCBuildUnsignedInput, W3cCredential} from 'utils/apis';
 
+export const certifiedCPRAEDVCData: VCBuildUnsignedInput = {
+  "type": "NameCredentialPersonV1",
+  "data": {
+    "@type": [
+      "Person",
+      "PersonE",
+      "NamePerson"
+    ],
+    "name": "Bob Belcher",
+    "email": "bobbelcher@gmail.com"
+  },
+  "holderDid": ""
+}
+
+export const certifiedAEDVCData: VCBuildUnsignedInput = {
+  "type": "EducationCredentialPersonV1",
+  "data": {
+    "@type": [
+      "Person",
+      "PersonE",
+      "EducationPerson"
+    ],
+    "name": "Bob Belcher",
+    "hasCredential": {
+      "@type": "AEDCredential",
+      "credentialCategory": "certificate",
+      "educationalLevel": "Secondary",
+      "recognizedBy": {
+        "@type": [
+          "Organization",
+          "OrganizationE"
+        ],
+        "name": "Purple Cross"
+      },
+      "dateCreated": "2021-05-07",
+      "url": "https://www.purplecross.edu/credential/credentialId"
+    }
+  },
+  "holderDid": ""
+}
+
 export const drivingLicenseVCData: VCBuildUnsignedInput = {
   "type": "IDDocumentCredentialPersonV1",
   "data": {
